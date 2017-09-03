@@ -15,7 +15,7 @@
   varon
 ")
 
-(deftest facts-test
+(deftest get-facts-test
   (testing "facts returns list of facts from database."
     (is (= (parser/get-facts parent-database)
             (list 
