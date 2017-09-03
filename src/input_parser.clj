@@ -4,6 +4,7 @@
   (:import [data_model Fact]))
 
 (def rule-assign-code ":-")
+(def fact-regex #"^\w+\((\w+)(, \w+)*\)\.$")
 
 (defn- get-lines
   "Returns a list containing each trimmed line from database, excluding blank lines."
@@ -16,8 +17,7 @@
 (defn- valid-fact?
   "Returns true if the string fact-line is a valid fact, or false otherwise."
   [fact-line]
-  ;; TODO: implement.
-  true)
+  (not (nil? (re-matches fact-regex fact-line))))
 
 (defn- get-name
   "Returns the Fact name from the fact-line."
