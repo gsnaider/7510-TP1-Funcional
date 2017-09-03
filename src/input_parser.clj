@@ -5,6 +5,7 @@
 
 (def rule-assign-code ":-")
 (def fact-regex #"^\w+\((\w+)(, \w+)*\)\.$")
+(def fact-name-regex #"^\w+")
 
 (defn- get-lines
   "Returns a list containing each trimmed line from database, excluding blank lines."
@@ -22,8 +23,7 @@
 (defn- get-name
   "Returns the Fact name from the fact-line."
   [fact-line]
-  ;; TODO: implement.
-  nil)
+  (re-find fact-name-regex fact-line))
 
 (defn- get-params
   "Returns the Fact parameters from the fact-line as a list of strings."
