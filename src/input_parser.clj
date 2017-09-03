@@ -36,7 +36,8 @@
         (str/split #","))))
 
 (defn- line->fact
-  "Converts an input string line to a Fact, or throws an Exception if the conversion is not possible."
+  "Converts an input string line to a Fact,
+  or throws an Exception if the conversion is not possible."
   [fact-line]
   (if (valid-fact? fact-line)
     (new Fact (get-name fact-line) (get-params fact-line))
