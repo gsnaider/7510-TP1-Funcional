@@ -17,7 +17,7 @@
 
 (deftest facts-test
   (testing "facts returns list of facts from database."
-    (is (= (parser/get-facts incomplete-database) 
+    (is (= (parser/get-facts parent-database)
             (list 
               (new Fact "varon" (list "juan"))
               (new Fact "padre" (list "juan" "pepe"))))))
