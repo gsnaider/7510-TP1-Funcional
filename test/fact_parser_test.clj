@@ -18,9 +18,8 @@
 (deftest get-facts-test
   (testing "get-facts returns a list of facts from a valid database."
     (is (= (parser/get-facts parent-database)
-            (list
-              (new Fact "varon" (list "juan"))
-              (new Fact "padre" (list "juan" "pepe"))))))
+            #{(new Fact "varon" (list "juan"))
+              (new Fact "padre" (list "juan" "pepe"))})))
 
   (testing "get-facts throws Exception with an incomplete database."
     (is (thrown? Exception (doall (parser/get-facts incomplete-database))))))
