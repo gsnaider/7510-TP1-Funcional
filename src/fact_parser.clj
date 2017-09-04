@@ -6,34 +6,19 @@
 
 (def rule-assign-code ":-")
 (def fact-regex #"^\w+\((\w+)(, \w+)*\)\.$")
-(def fact-name-regex #"^\w+")
-(def fact-params-regex #"\(.*\)")
 
 (defn- valid-fact?
   "Returns true if the string fact-line is a valid fact, or false otherwise."
   [fact-line]
   (not (nil? (re-matches fact-regex fact-line))))
 
-(defn- get-name
-  "Returns the Fact name from the fact-line."
-  [fact-line]
-  (re-find fact-name-regex fact-line))
-
-(defn- get-params
-  "Returns a list of strings containing the Fact parameters from the fact-line."
-  [fact-line]
-  (map str/trim
-    (-> (re-find fact-params-regex fact-line)
-        (str/replace-first "(" "")
-        (str/replace-first ")" "")
-        (str/split #","))))
-
-(defn- line->fact
+(defn- fact-line->fact
   "Converts an input string line to a Fact,
   or throws an Exception if the conversion is not possible."
   [fact-line]
   (if (valid-fact? fact-line)
-    (new Fact (get-name fact-line) (get-params fact-line))
+    (new Fact
+      (parser-util/get-name fact-line) (parser-util/get-params fact-line))
     (throw (IllegalArgumentException. "Invalid fact."))))
 
 (defn get-facts
@@ -42,4 +27,4 @@
   [database]
   (->> (parser-util/get-lines database)
         (remove #(str/includes? % rule-assign-code))
-        (map #(line->fact %))))
+        (map #(fact-line->fact %))))
