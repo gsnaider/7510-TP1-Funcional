@@ -1,5 +1,6 @@
-(ns input-parser
+(ns fact-parser
   (:require [data-model]
+            [parser-util]
             [clojure.string :as str])
   (:import [data_model Fact]))
 
@@ -7,14 +8,6 @@
 (def fact-regex #"^\w+\((\w+)(, \w+)*\)\.$")
 (def fact-name-regex #"^\w+")
 (def fact-params-regex #"\(.*\)")
-
-(defn- get-lines
-  "Returns a list containing each trimmed line from database, excluding blank lines."
-  [database]
-  (->> database
-      (str/split-lines)
-      (map #(str/trim %))
-      (remove str/blank?)))
 
 (defn- valid-fact?
   "Returns true if the string fact-line is a valid fact, or false otherwise."
@@ -47,6 +40,6 @@
   "Returns a list containing all the facts from the database,
   or throws an Exception if the databse can't be parsed."
   [database]
-  (->> (get-lines database)
+  (->> (parser-util/get-lines database)
         (remove #(str/includes? % rule-assign-code))
         (map #(line->fact %))))
