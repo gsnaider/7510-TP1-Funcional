@@ -1,6 +1,6 @@
-(ns input-parser-test
+(ns fact-parser-test
   (:require [clojure.test :refer :all]
-            [input-parser :as parser])
+            [fact-parser :as parser])
   (:import [data_model Fact]))
 
 (def parent-database "
@@ -16,9 +16,9 @@
 ")
 
 (deftest get-facts-test
-  (testing "get-facts returns a list of facts with a valid database."
+  (testing "get-facts returns a list of facts from a valid database."
     (is (= (parser/get-facts parent-database)
-            (list 
+            (list
               (new Fact "varon" (list "juan"))
               (new Fact "padre" (list "juan" "pepe"))))))
 
