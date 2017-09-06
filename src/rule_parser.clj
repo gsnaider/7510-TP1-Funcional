@@ -28,8 +28,7 @@
       (-> rule-line
           (str/split (re-pattern rule-assign-code))
           (nth 1)
-          (str/split (re-pattern rule-facts-separator-regex))
-          ))))
+          (str/split (re-pattern rule-facts-separator-regex))))))
 
 (defn- rule-line->rule
   "Converts an input string line to a Rule,
