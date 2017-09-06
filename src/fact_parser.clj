@@ -5,7 +5,7 @@
   (:import [data_model Fact]))
 
 (def rule-assign-code ":-")
-(def fact-regex #"^\w+\((\w+)(, \w+)*\)\.$")
+(def fact-regex #"^\w+\((\w+)(,\w+)*\)\.$")
 
 (defn- valid-fact?
   "Returns true if the string fact-line is a valid fact, or false otherwise."
@@ -16,10 +16,12 @@
   "Converts an input string line to a Fact,
   or throws an Exception if the conversion is not possible."
   [fact-line]
-  (if (valid-fact? fact-line)
-    (new Fact
-      (parser-util/get-name fact-line) (parser-util/get-params fact-line))
-    (throw (IllegalArgumentException. "Invalid fact."))))
+  (let [cleaned-fact-line (parser-util/remove-whitespace fact-line)]
+    (if (valid-fact? cleaned-fact-line)
+      (new Fact
+        (parser-util/get-name cleaned-fact-line)
+        (parser-util/get-params cleaned-fact-line))
+      (throw (IllegalArgumentException. "Invalid fact.")))))
 
 (defn get-facts
   "Returns a set containing all the facts from the database,
