@@ -1,7 +1,7 @@
 (ns rule-parser-test
   (:require [clojure.test :refer :all]
             [rule-parser :as parser])
-  (:import [data_model Rule]))
+  (:import [data_model Rule Fact]))
 
 (def parent-database "
 	varon(juan).
