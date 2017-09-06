@@ -22,7 +22,7 @@
     (throw (IllegalArgumentException. "Invalid fact."))))
 
 (defn get-facts
-  "Returns a list containing all the facts from the database,
+  "Returns a set containing all the facts from the database,
   or throws an Exception if the databse can't be parsed."
   [database]
   (->> (parser-util/get-lines database)
