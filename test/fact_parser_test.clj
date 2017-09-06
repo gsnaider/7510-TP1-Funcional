@@ -16,7 +16,7 @@
 ")
 
 (deftest get-facts-test
-  (testing "get-facts returns a list of facts from a valid database."
+  (testing "get-facts returns a set of facts from a valid database."
     (is (= (parser/get-facts parent-database)
             #{(new Fact "varon" (list "juan"))
               (new Fact "padre" (list "juan" "pepe"))})))
