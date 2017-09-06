@@ -12,6 +12,11 @@
   [rule-line]
   (not (nil? (re-matches rule-regex rule-line))))
 
+(defn- get-rule-facts
+  "Returns a set containing all the facts from a rule-line."
+  [rule-line]
+  #{})
+
 (defn- rule-line->rule
   "Converts an input string line to a Rule,
   or throws an Exception if the conversion is not possible."
@@ -20,7 +25,7 @@
     (new Rule
       (parser-util/get-name rule-line)
       (parser-util/get-params rule-line)
-      '())
+      (get-rule-facts rule-line))
     (throw (IllegalArgumentException. "Invalid rule."))))
 
 (defn get-rules

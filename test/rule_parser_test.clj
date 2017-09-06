@@ -21,15 +21,13 @@
             #{(new Rule 
                 "hijo"
                 (list "X" "Y")
-                (list 
-                  (new Fact "varon" (list "X"))
-                  (new Fact "padre" (list "Y" "X"))))                          
+                #{(new Fact "varon" (list "X"))
+                  (new Fact "padre" (list "Y" "X"))})
               (new Rule
                 "hija"
                 (list "X" "Y")
-                (list 
-                  (new Fact "mujer" (list "X"))
-                  (new Fact "padre" (list "Y" "X"))))})))
+                #{(new Fact "mujer" (list "X"))
+                  (new Fact "padre" (list "Y" "X"))})})))
 
   (testing "get-rules throws Exception with an incomplete database."
     (is (thrown? Exception (doall (parser/get-rules incomplete-database))))))
