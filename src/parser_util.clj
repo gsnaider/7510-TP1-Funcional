@@ -2,7 +2,7 @@
   (:require [clojure.string :as str]))
 
 (def name-regex #"^\w+")
-(def params-regex #"\(.*\)")
+(def params-regex #"\([^\)]*\)")
 
 (defn get-name
   "Returns the name from a valid input expression.
