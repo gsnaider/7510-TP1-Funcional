@@ -30,5 +30,5 @@
   [s]
   (->> s
       (str/split-lines)
-      (map #(str/trim %))
+      (map str/trim)
       (remove str/blank?)))
