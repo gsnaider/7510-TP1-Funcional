@@ -3,7 +3,7 @@
 
 (def whitespace-regex #"\s+")
 (def name-regex #"^\w+")
-(def params-regex #"\(.*\)")
+(def params-regex #"\([^\)]*\)")
 
 (defn remove-whitespace
   "Returns a string which equals s after all its whitespace characters have been removed."
@@ -16,7 +16,7 @@
   which must also be non-empty strings separated by a comma and a space, enclosed within parentheses.
   A valid input expression must have at least one parameter."
   [input-expression]
-  (re-find name-regex input-expression))
+  (re-find name-regex (str/trim input-expression)))
 
 (defn get-params
   "Returns a list of strings containing the parameters from a valid input expression.
@@ -36,5 +36,5 @@
   [s]
   (->> s
       (str/split-lines)
-      (map #(str/trim %))
+      (map str/trim)
       (remove str/blank?)))
