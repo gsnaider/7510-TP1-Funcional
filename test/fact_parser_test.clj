@@ -15,11 +15,11 @@
   varon
 ")
 
-(deftest get-facts-test
-  (testing "get-facts returns a set of facts from a valid database."
-    (is (= (parser/get-facts parent-database)
+(deftest parse-facts-test
+  (testing "parse-facts returns a set of facts from a valid database."
+    (is (= (parser/parse-facts parent-database)
             #{(new Fact "varon" (list "juan"))
               (new Fact "padre" (list "juan" "pepe"))})))
 
-  (testing "get-facts throws Exception with an incomplete database."
-    (is (thrown? Exception (doall (parser/get-facts incomplete-database))))))
+  (testing "parse-facts throws Exception with an incomplete database."
+    (is (thrown? Exception (doall (parser/parse-facts incomplete-database))))))

@@ -65,9 +65,9 @@
   either input can't be parsed, returns nil"
   [database query]
   (try
-  	(let [facts (fact-parser/get-facts database)
-          rules (rule-parser/get-rules database)
-          query (query-parser/get-query query)]
+  	(let [facts (fact-parser/parse-facts database)
+          rules (rule-parser/parse-rules database)
+          query (query-parser/parse-query query)]
 
   	(if (fact-in-db? facts query)
   		true

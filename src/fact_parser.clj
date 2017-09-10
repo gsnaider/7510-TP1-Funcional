@@ -7,20 +7,20 @@
 
 (def rule-assign-code ":-")
 
-(defn- fact-line->fact
+(defn- parse-fact
   "Converts an input string line to a Fact,
   or throws an Exception if the conversion is not possible."
   [fact-line]
   (if (fact-validator/valid-fact? fact-line)
     (new Fact
-      (parser-util/get-name fact-line) (parser-util/get-params fact-line))
+      (parser-util/parse-name fact-line) (parser-util/parse-params fact-line))
     (throw (IllegalArgumentException. "Invalid fact."))))
 
-(defn get-facts
+(defn parse-facts
   "Returns a set containing all the facts from the database,
   or throws an Exception if the databse can't be parsed."
   [database]
-  (->> (parser-util/get-lines database)
+  (->> (parser-util/parse-lines database)
         (remove #(str/includes? % rule-assign-code))
-        (map fact-line->fact)
-        (set)))
+        (map parse-fact)
+        set))
