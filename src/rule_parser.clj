@@ -27,14 +27,17 @@
 
 (defn- rule-line->rule
   "Converts an input string line to a Rule,
-  or throws an Exception if the conversion is not possible."
+  or throws an Exception if the rule-line is invalid."
   [rule-line]
-  (if (rule-validator/valid-rule? rule-line)
-    (new Rule
-      (parser-util/get-name rule-line)
-      (parser-util/get-params rule-line)
-      (get-rule-facts rule-line))
-    (throw (IllegalArgumentException. "Invalid rule."))))
+  (if-not (rule-validator/valid-rule? rule-line)
+    (throw (IllegalArgumentException. "Invalid rule.")))
+  (let [rule (new Rule
+              (parser-util/get-name rule-line)
+              (parser-util/get-params rule-line)
+              (get-rule-facts rule-line))]
+    (if (rule-validator/valid-rule-params? rule)
+      rule
+      (throw (IllegalArgumentException. "Invalid rule parameters.")))))
 
 (defn get-rules
   "Returns a set containing all the rules from the database,
