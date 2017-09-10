@@ -1,18 +1,12 @@
 (ns rule-parser
   (:require [data-model]
             [parser-util]
+            [rule-validator]
             [clojure.string :as str])
   (:import [data_model Fact Rule]))
 
 (def rule-assign-code ":-")
-(def rule-regex #"^\w+\((\w+)(, \w+)*\) :- (\w+\((\w+)(, \w+)*\))(, \w+\((\w+)(, \w+)*\))*\.$")
 (def rule-facts-separator-regex #",(?![^\(]*\))")
-
-(defn- valid-rule?
-  "Returns true if the string rule-line is a valid rule, or false otherwise."
-  [rule-line]
-  ; TODO: Validate that the params from rule-facts are declared as params from rule.
-  (not (nil? (re-matches rule-regex rule-line))))
 
 (defn- new-fact
   "Returns a new Fact representing the string fact-line"
@@ -35,7 +29,7 @@
   "Converts an input string line to a Rule,
   or throws an Exception if the conversion is not possible."
   [rule-line]
-  (if (valid-rule? rule-line)
+  (if (rule-validator/valid-rule? rule-line)
     (new Rule
       (parser-util/get-name rule-line)
       (parser-util/get-params rule-line)
