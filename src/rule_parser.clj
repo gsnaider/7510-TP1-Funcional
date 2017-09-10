@@ -9,32 +9,32 @@
 (def rule-facts-separator-regex #",(?![^\(]*\))")
 
 (defn- new-fact
-  "Returns a new Fact representing the string fact-line"
-  [fact-line]
+  "Returns a new Fact representing the fact-string."
+  [fact-string]
   (new Fact
-    (parser-util/parse-name fact-line)
-    (parser-util/parse-params fact-line)))
+    (parser-util/parse-name fact-string)
+    (parser-util/parse-params fact-string)))
 
 (defn- parse-rule-facts
-  "Returns a set containing all the facts from a rule-line."
-  [rule-line]
+  "Returns a set containing all the facts from a rule-string."
+  [rule-string]
   (set
     (map new-fact
-      (-> rule-line
+      (-> rule-string
           (str/split (re-pattern rule-assign-code))
           (nth 1)
           (str/split (re-pattern rule-facts-separator-regex))))))
 
 (defn- parse-rule
-  "Converts an input string line to a Rule,
-  or throws an Exception if the rule-line is invalid."
-  [rule-line]
-  (if-not (rule-validator/valid-rule? rule-line)
+  "Converts a rule-string to a Rule,
+  or throws an Exception if the rule-string is invalid."
+  [rule-string]
+  (if-not (rule-validator/valid-rule? rule-string)
     (throw (IllegalArgumentException. "Invalid rule.")))
   (let [rule (new Rule
-              (parser-util/parse-name rule-line)
-              (parser-util/parse-params rule-line)
-              (parse-rule-facts rule-line))]
+              (parser-util/parse-name rule-string)
+              (parser-util/parse-params rule-string)
+              (parse-rule-facts rule-string))]
     (if (rule-validator/valid-rule-params? rule)
       rule
       (throw (IllegalArgumentException. "Invalid rule parameters.")))))

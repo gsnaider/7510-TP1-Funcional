@@ -8,12 +8,12 @@
 (def rule-assign-code ":-")
 
 (defn- parse-fact
-  "Converts an input string line to a Fact,
+  "Converts a fact-string to a Fact,
   or throws an Exception if the conversion is not possible."
-  [fact-line]
-  (if (fact-validator/valid-fact? fact-line)
+  [fact-string]
+  (if (fact-validator/valid-fact? fact-string)
     (new Fact
-      (parser-util/parse-name fact-line) (parser-util/parse-params fact-line))
+      (parser-util/parse-name fact-string) (parser-util/parse-params fact-string))
     (throw (IllegalArgumentException. "Invalid fact."))))
 
 (defn parse-facts
