@@ -45,5 +45,5 @@
   [database]
   (->> (parser-util/get-lines database)
         (remove #(not (str/includes? % rule-assign-code)))
-        (map #(rule-line->rule %))
+        (map rule-line->rule)
         (set)))

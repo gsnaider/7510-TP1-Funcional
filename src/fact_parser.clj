@@ -22,5 +22,5 @@
   [database]
   (->> (parser-util/get-lines database)
         (remove #(str/includes? % rule-assign-code))
-        (map #(fact-line->fact %))
+        (map fact-line->fact)
         (set)))
