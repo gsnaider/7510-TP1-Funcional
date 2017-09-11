@@ -8,6 +8,15 @@
   hijo(X, Y) :- varon(X), padre(Y, X).
 ")
 
+(deftest remove-whitespace-test
+  (testing "remove-whitespace returns string without whitespace."
+    (is (= 
+      (parser-util/remove-whitespace "  T E S T  ") 
+      "TEST"))
+    (is (= 
+      (parser-util/remove-whitespace " \t \n T\t E\t ST\n \t ") 
+      "TEST"))))
+
 (deftest parse-name-test
   (testing "parse-name returns name of input-expression."
     (is (= (parser-util/parse-name "varon(juan).") 

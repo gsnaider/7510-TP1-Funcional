@@ -1,8 +1,14 @@
 (ns parser-util
   (:require [clojure.string :as str]))
 
+(def whitespace-regex #"\s+")
 (def name-regex #"^\w+")
 (def params-regex #"\([^\)]*\)")
+
+(defn remove-whitespace
+  "Returns a string which equals s after all its whitespace characters have been removed."
+  [s]
+  (str/replace s whitespace-regex ""))
 
 (defn parse-name
   "Returns the name from a valid input expression.

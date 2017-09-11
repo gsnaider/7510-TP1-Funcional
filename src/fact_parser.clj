@@ -13,7 +13,8 @@
   [fact-string]
   (if (fact-validator/valid-fact? fact-string)
     (new Fact
-      (parser-util/parse-name fact-string) (parser-util/parse-params fact-string))
+      (parser-util/parse-name fact-string)
+      (parser-util/parse-params fact-string))
     (throw (IllegalArgumentException. (str "Invalid fact: " fact-string)))))
 
 (defn parse-facts
