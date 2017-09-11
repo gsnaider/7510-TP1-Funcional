@@ -11,12 +11,11 @@
   "Converts a fact-string to a Fact,
   or throws an Exception if the conversion is not possible."
   [fact-string]
-  (let [cleaned-fact-string (parser-util/remove-whitespace fact-string)]
-  (if (fact-validator/valid-fact? cleaned-fact-string)
+  (if (fact-validator/valid-fact? fact-string)
     (new Fact
-      (parser-util/parse-name cleaned-fact-string)
-      (parser-util/parse-params cleaned-fact-string))
-    (throw (IllegalArgumentException. (str "Invalid fact: " cleaned-fact-string))))))
+      (parser-util/parse-name fact-string)
+      (parser-util/parse-params fact-string))
+    (throw (IllegalArgumentException. (str "Invalid fact: " fact-string)))))
 
 (defn parse-facts
   "Returns a set containing all the facts from the database,
