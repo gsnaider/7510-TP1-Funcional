@@ -11,20 +11,28 @@
     (->> rules
       (filter 
         (fn[rule]
-        (data-model/rule-equals-query? rule query)))
+          (data-model/rule-equals-query? rule query)))
       first))
 
-(defn- evaluate-params
-  "Returns a set of facts that come from evaluating each X, Y,..
-  form rule-params with the concrete params in the map params"
-  [rule params-map]
-    (set 
-    (map
-      (fn[fact]
-          (new Fact
-            (:name fact) 
-            (map #(get params-map %) (:params fact))))
-      (:facts rule))))
+(defn- instanciate-fact
+  "Returns a Fact equal to fact, but with its parameters 
+  replaced by their corresponding entries from params-map."
+  [fact params-map]
+    (new Fact
+      (:name fact) 
+      (map #(get params-map %) (:params fact)))
+  )
+
+(defn- instanciate-rule-facts
+  "Returns the Fact set from rule, but replacing each generic parameter (X, Y, Z, etc.)
+  with the corresponding parameter from query."
+  [rule query]
+  (let [params-map (zipmap (:params rule) (:params query))]
+    (->> (:facts rule)
+          (map
+            (fn[fact]
+              (instanciate-fact fact params-map)))
+          set)))
 
 (defn- fact-in-database?
   "Returns true if the Fact represented by query is in facts, or false otherwise."
@@ -33,23 +41,19 @@
     facts
     (data-model/query->fact query)))
 
-(defn- facts-in-database?
+(defn- rule-facts-in-database?
   "Returns true if all the facts from rule, evaluated using the parameters from query, are in facts."
   [facts rule query]
-    (let [params (zipmap (:params rule) (:params query))
-          concrete-facts (evaluate-params rule params)]
-    (reduce (fn[x y] (and x y)) 
-      (map #(fact-in-database? facts %) concrete-facts)
-      )
-    )
-  )
+    (let [instanciated-rule-facts (instanciate-rule-facts rule query)]
+    (reduce (fn[x y] (and x y))
+      (map #(fact-in-database? facts %) instanciated-rule-facts))))
 
 (defn- rule-in-database?
   "Returns true if the Rule represented by query is in rules,
   and each fact associated to that rule is in facts."
 	[facts rules query]
   (if-let [rule (find-rule rules query)]
-    (facts-in-database? facts rule query)
+    (rule-facts-in-database? facts rule query)
     false))
 
 (defn evaluate-query
