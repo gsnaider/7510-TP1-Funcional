@@ -7,22 +7,22 @@
 
 (def rule-assign-code ":-")
 
-(defn- fact-line->fact
-  "Converts an input string line to a Fact,
+(defn- parse-fact
+  "Converts a fact-string to a Fact,
   or throws an Exception if the conversion is not possible."
-  [fact-line]
-  (let [cleaned-fact-line (parser-util/remove-whitespace fact-line)]
-    (if (fact-validator/valid-fact? cleaned-fact-line)
-      (new Fact
-        (parser-util/get-name cleaned-fact-line)
-        (parser-util/get-params cleaned-fact-line))
-      (throw (IllegalArgumentException. "Invalid fact.")))))
+  [fact-string]
+  (let [cleaned-fact-string (parser-util/remove-whitespace fact-string)]
+  (if (fact-validator/valid-fact? cleaned-fact-string)
+    (new Fact
+      (parser-util/parse-name cleaned-fact-string)
+      (parser-util/parse-params cleaned-fact-string))
+    (throw (IllegalArgumentException. (str "Invalid fact: " cleaned-fact-string))))))
 
-(defn get-facts
+(defn parse-facts
   "Returns a set containing all the facts from the database,
   or throws an Exception if the databse can't be parsed."
   [database]
-  (->> (parser-util/get-lines database)
+  (->> (parser-util/parse-lines database)
         (remove #(str/includes? % rule-assign-code))
-        (map fact-line->fact)
-        (set)))
+        (map parse-fact)
+        set))

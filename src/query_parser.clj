@@ -5,10 +5,12 @@
             [clojure.string :as str])
   (:import [data_model Query]))
 
-(defn get-query
-  "Returns a Query obtained from parsing a query stirng,
+(defn parse-query
+  "Returns a Query obtained from parsing a query-string,
   or throws an Exception if the parsing is not possible."
-  [query]
-  (if (query-validator/valid-query? query)
-    (new Query (parser-util/get-name query) (parser-util/get-params query))
-    (throw (IllegalArgumentException. "Invalid query."))))
+  [query-string]
+  (if (query-validator/valid-query? query-string)
+    (new Query
+      (parser-util/parse-name query-string)
+      (parser-util/parse-params query-string))
+    (throw (IllegalArgumentException. (str "Invalid query: " query-string)))))

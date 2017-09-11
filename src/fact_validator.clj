@@ -3,6 +3,6 @@
 (def fact-regex #"^\w+\((\w+)(,\w+)*\)\.$")
 
 (defn valid-fact?
-  "Returns true if the string fact-line is a valid fact, or false otherwise."
-  [fact-line]
-  (not (nil? (re-matches fact-regex fact-line))))
+  "Returns true if the format of fact-string is a valid fact format, or false otherwise."
+  [fact-string]
+  (not (nil? (re-matches fact-regex fact-string))))
