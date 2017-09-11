@@ -10,7 +10,7 @@
     (parser-util/remove-whitespace rule-string)))))
 
 (defn valid-rule-params?
-  "Returns true if the parameters declared in the rule name are the same as 
+  "Returns true if the parameters declared in the rule name are the same as
   the parameters in its facts, or false otherwise."
   [rule]
   (= 

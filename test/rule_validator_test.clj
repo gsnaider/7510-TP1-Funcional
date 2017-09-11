@@ -27,7 +27,7 @@
     (is (not (validator/valid-rule? "hijo(X) varon(X), padre(X, Y).")))))
 
 (deftest validate-rule-params
-  (testing "valid-rule-params? returns true for rules with the same parameters in 
+  (testing "valid-rule-params? returns true for rules with the same parameters in
     its name and in its facts."
     (is (validator/valid-rule-params? 
       (new Rule
@@ -41,7 +41,7 @@
     (is (validator/valid-rule-params? 
       (new Rule "wet_floor" '("X") #{(new Fact "rain" '("X"))}))))
 
-  (testing "valid-rule-params? returns false for rules with different parameters in 
+  (testing "valid-rule-params? returns false for rules with different parameters in
     its name than in its facts."
     (is (not (validator/valid-rule-params? 
       (new Rule "hijo" '("X") #{(new Fact "varon" '("Y"))}))))
