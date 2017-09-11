@@ -30,14 +30,14 @@
   or throws an Exception if the rule-string is invalid."
   [rule-string]
   (if-not (rule-validator/valid-rule? rule-string)
-    (throw (IllegalArgumentException. "Invalid rule.")))
+    (throw (IllegalArgumentException. (str "Invalid rule: " rule-string))))
   (let [rule (new Rule
               (parser-util/parse-name rule-string)
               (parser-util/parse-params rule-string)
               (parse-rule-facts rule-string))]
     (if (rule-validator/valid-rule-params? rule)
       rule
-      (throw (IllegalArgumentException. "Invalid rule parameters.")))))
+      (throw (IllegalArgumentException. (str "Invalid rule parameters: " rule-string))))))
 
 (defn parse-rules
   "Returns a set containing all the rules from the database,

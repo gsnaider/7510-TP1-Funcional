@@ -14,7 +14,7 @@
   (if (fact-validator/valid-fact? fact-string)
     (new Fact
       (parser-util/parse-name fact-string) (parser-util/parse-params fact-string))
-    (throw (IllegalArgumentException. "Invalid fact."))))
+    (throw (IllegalArgumentException. (str "Invalid fact: " fact-string)))))
 
 (defn parse-facts
   "Returns a set containing all the facts from the database,
