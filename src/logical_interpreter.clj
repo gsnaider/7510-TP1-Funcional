@@ -9,19 +9,18 @@
   "Returns the rule in rules with the same name as query, or nil if there's no such rule."
   [rules query]
     (->> rules
-      (filter 
+      (filter
         (fn[rule]
           (data-model/rule-equals-query? rule query)))
       first))
 
 (defn- instanciate-fact
-  "Returns a Fact equal to fact, but with its parameters 
+  "Returns a Fact equal to fact, but with its parameters
   replaced by their corresponding entries from params-map."
   [fact params-map]
     (new Fact
-      (:name fact) 
-      (map #(get params-map %) (:params fact)))
-  )
+      (:name fact)
+      (map #(get params-map %) (:params fact))))
 
 (defn- instanciate-rule-facts
   "Returns the Fact set from rule, but replacing each generic parameter (X, Y, Z, etc.)
@@ -43,7 +42,7 @@
 (defn- rule-in-database?
   "Returns true if the Rule represented by query is in rules,
   and each fact associated to that rule is in facts."
-	[facts rules query]
+  [facts rules query]
   (if-let [rule (find-rule rules query)]
     (rule-facts-in-database? facts rule query)
     false))
@@ -60,12 +59,12 @@
   either input can't be parsed, returns nil"
   [database query]
   (try
-  	(let [facts (fact-parser/parse-facts database)
+    (let [facts (fact-parser/parse-facts database)
           rules (rule-parser/parse-rules database)
           query (query-parser/parse-query query)]
 
   	(if (fact-in-database? facts query)
-  		true
+      true
   		(rule-in-database? facts rules query)))
   (catch Exception e
     (do
