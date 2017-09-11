@@ -34,19 +34,11 @@
               (instanciate-fact fact params-map)))
           set)))
 
-(defn- fact-in-database?
-  "Returns true if the Fact represented by query is in facts, or false otherwise."
-  [facts query]
-  (contains?
-    facts
-    (data-model/query->fact query)))
-
 (defn- rule-facts-in-database?
   "Returns true if all the facts from rule, evaluated using the parameters from query, are in facts."
   [facts rule query]
     (let [instanciated-rule-facts (instanciate-rule-facts rule query)]
-    (reduce (fn[x y] (and x y))
-      (map #(fact-in-database? facts %) instanciated-rule-facts))))
+    (every? (fn[fact] (contains? facts fact)) instanciated-rule-facts)))
 
 (defn- rule-in-database?
   "Returns true if the Rule represented by query is in rules,
@@ -55,6 +47,13 @@
   (if-let [rule (find-rule rules query)]
     (rule-facts-in-database? facts rule query)
     false))
+
+(defn- fact-in-database?
+  "Returns true if the Fact represented by query is in facts, or false otherwise."
+  [facts query]
+  (contains?
+    facts
+    (data-model/query->fact query)))
 
 (defn evaluate-query
   "Returns true if the rules and facts in database imply query, false if not. If
